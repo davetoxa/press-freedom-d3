@@ -1,7 +1,7 @@
 window.onload = function () {
   var width, height, svg, path, getColor, years = [], colors = []
   var defaultColor = 'white'
-  var currentYear = '2014'
+  var currentYear = '1993'
   var colors = [
     '#a50026',
     '#d73027',
@@ -39,10 +39,10 @@ window.onload = function () {
 
   function loadData() {
     queue()
-      // .defer(d3.json, "../data/topoworld.json")
-      // .defer(d3.csv, "../data/freedom.csv")
-      .defer(d3.json, "https://raw.githubusercontent.com/davetoxa/press-freedom-d3/master/data/topoworld.json")
-      .defer(d3.csv, "https://raw.githubusercontent.com/davetoxa/press-freedom-d3/master/data/freedom.csv")
+      // .defer(d3.json, '../data/topoworld.json')
+      // .defer(d3.csv, '../data/freedom.csv')
+      .defer(d3.json, 'https://raw.githubusercontent.com/davetoxa/press-freedom-d3/master/data/topoworld.json')
+      .defer(d3.csv, 'https://raw.githubusercontent.com/davetoxa/press-freedom-d3/master/data/freedom.csv')
       .await(processData)
   }
 
@@ -76,11 +76,12 @@ window.onload = function () {
       .attr('d', path)
     sequenceMap()
     addLegend()
+    addSlider()
   }
 
   function sequenceMap() {
     d3.selectAll('.country').style('fill', function(d) {
-      return getColor(d.properties[currentYear]) || defaultColor;
+      return getColor(d.properties[currentYear]) || defaultColor
     })
   }
 
@@ -88,9 +89,9 @@ window.onload = function () {
     var legend_width = 200, legend_height = 10, legend_padding = 10
     var legend_cell_width = legend_width / 10
 
-    var legend = svg.append("g").attr(
+    var legend = svg.append('g').attr(
       'transform',
-      "translate(" + legend_padding + "," + (height-(legend_height+legend_padding)) + ")"
+      'translate(' + legend_padding + ',' + (height-(legend_height+legend_padding)) + ')'
     )
 
     legend.append('rect')
@@ -107,6 +108,35 @@ window.onload = function () {
         .attr('x', i * legend_cell_width)
         .style('fill', colors[i])
     }
+  }
+
+  function addSlider() {
+    svg.append('text')
+        .attr('id', 'year')
+        .attr('transform', 'translate(405,550)')
+        .text(currentYear)
+
+    slider = d3.slider().min('1993').max('2014')
+        .tickValues(['1993','2000','2007','2014'])
+        .stepValues(d3.range(1993,2015))
+        .tickFormat(d3.format('04d'))
+
+    svg.append('g')
+        .attr('width', 300)
+        .attr('id', 'slider')
+        .attr('transform', 'translate(273,545)')
+
+    d3.select('#slider').call(slider)
+    var dragBehaviour = d3.behavior.drag()
+
+    dragBehaviour.on('drag', function(d){
+        slider.move(d3.event.x + 25)
+        currentYear = slider.value()
+        sequenceMap()
+        d3.select('#year').text(slider.value())
+    })
+
+    svg.selectAll('.dragger').call(dragBehaviour)
   }
 
   init()

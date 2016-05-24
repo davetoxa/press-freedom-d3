@@ -1,0 +1,41 @@
+.d3slider {
+  z-index: 2;
+  height: 100%;
+  background: none;
+}
+
+.d3slider-rect-range {
+  border: 1px solid black;
+  fill: white;
+  stroke: black;
+  stroke-width: 1;
+  shape-rendering: crispEdges;
+}
+
+.d3slider-axis {
+  position: relative;
+  z-index: 1;
+  cursor: pointer;
+}
+
+.d3slider-axis path {
+  display: none;
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+
+.d3slider-axis line {
+    fill: none;
+    stroke: #000;
+    shape-rendering: crispEdges;
+}
+
+.d3slider text {
+  font: 10px sans-serif;
+}
+
+.dragger-outer {
+  fill: #fff;
+  stroke: #000;
+}

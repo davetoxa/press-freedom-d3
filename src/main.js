@@ -1,5 +1,5 @@
 window.onload = function () {
-  var svg, path, getColor, years = [], colors = []
+  var width, height, svg, path, getColor, years = [], colors = []
   var defaultColor = 'white'
   var currentYear = '2014'
   var colors = [
@@ -20,7 +20,7 @@ window.onload = function () {
   }
 
   function setMap() {
-    var width = 818, height = 600
+    width = 818, height = 600
 
     svg = d3.select('#map').append('svg')
         .attr('width', width)
@@ -73,12 +73,38 @@ window.onload = function () {
       .attr('class', 'country')
       .attr('d', path)
     sequenceMap()
+    addLegend()
   }
 
   function sequenceMap() {
     d3.selectAll('.country').style('fill', function(d) {
       return getColor(d.properties[currentYear]) || defaultColor;
     })
+  }
+
+  function addLegend() {
+    var legend_width = 200, legend_height = 10, legend_padding = 10
+    var legend_cell_width = legend_width / 10
+
+    var legend = svg.append("g").attr(
+      'transform',
+      "translate(" + legend_padding + "," + (height-(legend_height+legend_padding)) + ")"
+    )
+
+    legend.append('rect')
+      .attr('width', legend_width)
+      .attr('height', legend_height)
+      .style('fill', 'white')
+
+    var lcolors = legend.append('g').style('fill', defaultColor)
+
+    for (i = 0; i < 10; i++) {
+      lcolors.append('rect')
+        .attr('height', 10)
+        .attr('width', legend_cell_width)
+        .attr('x', i * legend_cell_width)
+        .style('fill', colors[i])
+    }
   }
 
   init()

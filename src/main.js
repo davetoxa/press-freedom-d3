@@ -39,8 +39,10 @@ window.onload = function () {
 
   function loadData() {
     queue()
-      .defer(d3.json, "../data/topoworld.json")
-      .defer(d3.csv, "../data/freedom.csv")
+      // .defer(d3.json, "../data/topoworld.json")
+      // .defer(d3.csv, "../data/freedom.csv")
+      .defer(d3.json, "https://raw.githubusercontent.com/davetoxa/press-freedom-d3/master/data/topoworld.json")
+      .defer(d3.csv, "https://raw.githubusercontent.com/davetoxa/press-freedom-d3/master/data/freedom.csv")
       .await(processData)
   }
 

@@ -1,7 +1,7 @@
 window.onload = function () {
   var width, height, svg, path, getColor, years = [], colors = []
   var defaultColor = 'white'
-  var currentYear = '1993'
+  var currentYear = '2014'
   var colors = [
     '#a50026',
     '#d73027',
@@ -20,14 +20,14 @@ window.onload = function () {
   }
 
   function setMap() {
-    width = 818, height = 600
+    width = 772, height = 550
 
     svg = d3.select('#map').append('svg')
         .attr('width', width)
         .attr('height', height)
 
     var miller = d3.geo.miller()
-      .scale(130)
+      .scale(120)
       .translate([width / 2, height / 2])
       .precision(.1)
 
@@ -113,10 +113,10 @@ window.onload = function () {
   function addSlider() {
     svg.append('text')
         .attr('id', 'year')
-        .attr('transform', 'translate(405,550)')
+        .attr('transform', 'translate(405,500)')
         .text(currentYear)
 
-    slider = d3.slider().min('1993').max('2014')
+    slider = d3.slider().min('1993').max('2014').value(2014)
         .tickValues(['1993','2000','2007','2014'])
         .stepValues(d3.range(1993,2015))
         .tickFormat(d3.format('04d'))
@@ -124,7 +124,7 @@ window.onload = function () {
     svg.append('g')
         .attr('width', 300)
         .attr('id', 'slider')
-        .attr('transform', 'translate(273,545)')
+        .attr('transform', 'translate(273,495)')
 
     d3.select('#slider').call(slider)
     var dragBehaviour = d3.behavior.drag()

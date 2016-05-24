@@ -48,19 +48,19 @@ window.onload = function () {
     var world = topojson.feature(worldMap, worldMap.objects.world)
     var countries = world.features
     for (var i in countries) {
-        for (var j in countryData) {
-            if (countries[i].id == countryData[j].ISO3166) {
-                for(var k in countryData[j]) {
-                    if (k != 'Country' && k != 'ISO3166') {
-                        if (years.indexOf(k) == -1) {
-                            years.push(k)
-                        }
-                        countries[i].properties[k] = Number(countryData[j][k])
-                    }
-                }
-                break;
+      for (var j in countryData) {
+        if (countries[i].id == countryData[j].ISO3166) {
+          for(var k in countryData[j]) {
+            if (k != 'Country' && k != 'ISO3166') {
+              if (years.indexOf(k) == -1) {
+                years.push(k)
+              }
+              countries[i].properties[k] = Number(countryData[j][k])
             }
+          }
+          break;
         }
+      }
     }
     drawMap(world)
   }
